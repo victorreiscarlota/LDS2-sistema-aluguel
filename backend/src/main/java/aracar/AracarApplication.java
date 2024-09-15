@@ -9,13 +9,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class AracarApplication {
 
-	@GetMapping("/teste")
-	public String hello() {
-		return "Hello, 123!";
-	}
+    @GetMapping("/teste")
+    public String home() {
+        return "Hello, 33333333!";
+    }
 
-	public static void main(String[] args) {
-		SpringApplication.run(AracarApplication.class, args);
-	}
-
+    public static void main(String[] args) {
+        SpringApplication.run(AracarApplication.class, args);
+    }
 }
