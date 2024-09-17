@@ -8,9 +8,10 @@ Este repositório contém o trabalho em grupo realizado para a disciplina **Labo
 
 ## 👥 Integrantes da equipe
 
-- Gustavo Pereira de Oliveira
+- [Caio Costa Souza]()
+- [Gustavo Pereira de Oliveira]()
 - [Luís Felipe Teixeira Dias Brescia](https://luisbrescia.tech)
-- Victor Reis Carlota
+- [Victor Reis Carlota](https://victor-room.vercel.app)
 
 ## 👨‍🏫 Professor responsável
 
