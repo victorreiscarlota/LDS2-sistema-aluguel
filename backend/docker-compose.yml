@@ -25,7 +25,7 @@ services:
     networks:
       - aracar-network
     environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/aracar_bd
+      SPRING_DATASOURCE_URL: jdbc:postgresql://aracar_db:5432/aracar_db
       SPRING_DATASOURCE_USERNAME: victor
       SPRING_DATASOURCE_PASSWORD: victor
       SPRING_JPA_HIBERNATE_DDL_AUTO: update
