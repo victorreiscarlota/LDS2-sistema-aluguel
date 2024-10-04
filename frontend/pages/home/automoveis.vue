@@ -15,6 +15,7 @@ const {
   refresh: automoveisRefresh,
 } = await useApiFetch('/automoveis');
 
+const formVisible = ref(false);
 const formData = ref({
   ano: '',
   marca: '',
@@ -22,7 +23,6 @@ const formData = ref({
   modelo: '',
   placa: '',
 });
-const dialogVisible = ref(false);
 
 const automoveisTable = [
   { field: 'ano', header: 'Ano' },
@@ -32,24 +32,9 @@ const automoveisTable = [
   { field: 'placa', header: 'Placa' },
 ];
 
-const handleOpenDialog = () => {
-  dialogVisible.value = true;
-};
-
-const handleCloseDialog = () => {
-  formData.value = {
-    ano: '',
-    marca: '',
-    matricula: '',
-    modelo: '',
-    placa: '',
-  };
-  dialogVisible.value = false;
-};
-
 const editAutomovel = (data) => {
   formData.value = { ...data };
-  dialogVisible.value = true;
+  formVisible.value = true;
 };
 
 const confirmDeleteAutomovel = (id) => {
@@ -71,7 +56,6 @@ const confirmDeleteAutomovel = (id) => {
     },
   });
 };
-
 const deleteAutomovel = async (id) => {
   try {
     await useApiFetch(`/automoveis?id=${id}`, {
@@ -95,8 +79,8 @@ const deleteAutomovel = async (id) => {
 };
 
 const handleSubmitLoading = ref(false);
-const handleSubmit = async () => {
-  handleSubmitLoading.value = true;
+
+const postAutomovel = async () => {
   try {
     await useApiFetch('/automoveis', {
       method: 'POST',
@@ -117,9 +101,59 @@ const handleSubmit = async () => {
       life: 3000,
     });
   } finally {
-    handleSubmitLoading.value = false;
     handleCloseDialog();
+    handleSubmitLoading.value = false;
   }
+};
+
+const putAutomovel = async () => {
+  try {
+    await useApiFetch(`/automoveis?id=${formData.value.id}`, {
+      method: 'PUT',
+      body: formData.value,
+    });
+    toast.add({
+      severity: 'success',
+      summary: 'Sucesso',
+      detail: 'Automóvel editado com sucesso',
+      life: 3000,
+    });
+    automoveisRefresh();
+  } catch (error) {
+    toast.add({
+      severity: 'error',
+      summary: 'Erro',
+      detail: 'Erro ao editar automóvel',
+      life: 3000,
+    });
+  } finally {
+    handleCloseDialog();
+    handleSubmitLoading.value = false;
+  }
+};
+
+const handleSubmit = () => {
+  handleSubmitLoading.value = true;
+
+  if (formData.value.id) {
+    putAutomovel();
+  } else {
+    postAutomovel();
+  }
+};
+
+const handleOpenDialog = () => {
+  formVisible.value = true;
+};
+const handleCloseDialog = () => {
+  formData.value = {
+    ano: '',
+    marca: '',
+    matricula: '',
+    modelo: '',
+    placa: '',
+  };
+  formVisible.value = false;
 };
 </script>
 
@@ -165,7 +199,7 @@ const handleSubmit = async () => {
     </DataTable>
 
     <Dialog
-      v-model:visible="dialogVisible"
+      v-model:visible="formVisible"
       modal
       :header="`${formData.id ? 'Editar' : 'Adicionar'} automóvel`"
       :style="{ width: '25rem' }"
