@@ -3,11 +3,11 @@ version: '3.8'
 services:
   db:
     image: postgres:14
-    container_name: aracar_postgres
+    container_name: aracar_db
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: secret
-      POSTGRES_DB: mydb
+      POSTGRES_USER: victor
+      POSTGRES_PASSWORD: victor
+      POSTGRES_DB: aracar_db
     volumes:
       - postgres_data:/var/lib/postgresql/data
     networks:
@@ -25,9 +25,9 @@ services:
     networks:
       - aracar-network
     environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/mydb
-      SPRING_DATASOURCE_USERNAME: postgres
-      SPRING_DATASOURCE_PASSWORD: secret
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/aracar_bd
+      SPRING_DATASOURCE_USERNAME: victor
+      SPRING_DATASOURCE_PASSWORD: victor
       SPRING_JPA_HIBERNATE_DDL_AUTO: update
 
 networks:
