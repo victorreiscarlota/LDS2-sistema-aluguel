@@ -32,6 +32,23 @@ public class ClienteService {
         return ClienteMapper.INSTANCE.toDTO(cliente);
     }
 
+    // o método abaixo pode ser refatorado da seguinte forma:
+    // public ClienteDTO adicionarCliente(ClienteDTO clienteDTO) {
+    //     validarClienteDTO(clienteDTO);
+    //     Cliente cliente = ClienteMapper.INSTANCE.toEntity(clienteDTO);
+    //     cliente = clienteRepository.save(cliente);
+    //     return ClienteMapper.INSTANCE.toDTO(cliente);
+    // }
+    // adicionando o seguinte método de validação:
+    // private void validarClienteDTO(ClienteDTO clienteDTO) {
+    //     if (clienteDTO.getCpf() == null || clienteDTO.getCpf().isEmpty()) {
+    //         throw new InvalidRequestException("cpf", "O CPF não pode ser nulo ou vazio");
+    //     }
+    //     if (clienteDTO.getNome() == null || clienteDTO.getNome().isEmpty()) {
+    //         throw new InvalidRequestException("nome", "O nome não pode ser nulo ou vazio");
+    //     }
+    // }
+
     public ClienteDTO adicionarCliente(ClienteDTO clienteDTO) {
         if (clienteDTO.getCpf() == null || clienteDTO.getCpf().isEmpty()) {
             throw new InvalidRequestException("cpf", "O CPF não pode ser nulo ou vazio");
@@ -40,6 +57,16 @@ public class ClienteService {
         cliente = clienteRepository.save(cliente);
         return ClienteMapper.INSTANCE.toDTO(cliente);
     }
+
+    // o método acima pode ser refatorado aproveitando o método de validação:
+    // public ClienteDTO atualizarCliente(Long id, ClienteDTO clienteDTO) {
+    //     Cliente cliente = clienteRepository.findById(id)
+    //         .orElseThrow(() -> new ResourceNotFoundException("Cliente", id));
+    //     validarClienteDTO(clienteDTO);
+    //     atualizarClienteComDTO(cliente, clienteDTO);
+    //     cliente = clienteRepository.save(cliente);
+    //     return ClienteMapper.INSTANCE.toDTO(cliente);
+    // }
 
     public ClienteDTO atualizarCliente(Long id, ClienteDTO clienteDTO) {
         Cliente cliente = clienteRepository.findById(id)
